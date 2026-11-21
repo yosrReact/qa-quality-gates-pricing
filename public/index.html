@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Panier</title>
+  <style>
+    body { font-family: sans-serif; max-width: 420px; margin: 40px auto; }
+    label { display: block; margin-top: 12px; }
+    #erreur { color: #b00020; }
+  </style>
+</head>
+<body>
+  <h1>Mon panier</h1>
+  <form id="panier">
+    <label>Prix unitaire (€) <input id="prix" type="number" step="0.01" value="20"></label>
+    <label>Quantité <input id="quantite" type="number" value="1"></label>
+    <label>Code promo <input id="code" type="text"></label>
+    <button type="submit">Calculer</button>
+  </form>
+  <p id="erreur" role="alert"></p>
+  <dl>
+    <dt>Produits</dt><dd data-testid="produits">-</dd>
+    <dt>Livraison</dt><dd data-testid="livraison">-</dd>
+    <dt>Total</dt><dd data-testid="total">-</dd>
+  </dl>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

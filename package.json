@@ -1,0 +1,20 @@
+{
+  "name": "mutation-testing-pricing",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:mutation": "stryker run",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.49.1",
+    "@stryker-mutator/core": "8.7.1",
+    "@stryker-mutator/vitest-runner": "8.7.1",
+    "@vitest/coverage-v8": "2.1.8",
+    "vitest": "2.1.8"
+  }
+}

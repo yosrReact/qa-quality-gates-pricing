@@ -1,0 +1,6 @@
+{
+  "testRunner": "vitest",
+  "mutate": ["src/**/*.js"],
+  "reporters": ["clear-text", "html", "progress"],
+  "thresholds": { "high": 90, "low": 70, "break": null }
+}
