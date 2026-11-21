@@ -12,11 +12,23 @@ Ce dépôt va plus loin : on ajoute des **tests de bout en bout (Playwright)** s
 
 1. **Intention** : [INTENTION.md](INTENTION.md) décrit le besoin (pourquoi, règles métier, exemples/oracles, hors périmètre). C'est la référence.
 2. **Tests unitaires** : [tests/pricing.test.js](tests/pricing.test.js), générés avec Claude à partir de l'intention, validés par Stryker.
-3. **Tests de bout en bout** (à venir) : Playwright sur la page panier.
-4. **Quality gates en CI** (à venir) : sur chaque pull request, la CI vérifie :
-   - les tests unitaires et un seuil de couverture ;
-   - un seuil de score de mutation (Stryker) ;
-   - les tests de bout en bout (Playwright).
+3. **Tests de bout en bout** : [e2e/panier.spec.js](e2e/panier.spec.js), Playwright sur la page panier, avec un Page Object ([e2e/pages/PanierPage.js](e2e/pages/PanierPage.js)).
+4. **Quality gates en CI** : [.github/workflows/quality-gates.yml](.github/workflows/quality-gates.yml). Sur chaque pull request et chaque push sur `main`, 3 jobs indépendants tournent en parallèle :
+   - **Gate 1** : tests unitaires et seuil de couverture ;
+   - **Gate 2** : seuil de score de mutation (Stryker), rapport publié en artefact ;
+   - **Gate 3** : tests de bout en bout (Playwright), rapport et traces publiés en artefact en cas d'échec.
+
+   Des jobs séparés montrent clairement quelle gate bloque une pull request, et chacun peut être rendu obligatoire dans la protection de la branche `main`.
+
+## Seuils des quality gates
+
+| Gate | Seuil | Pourquoi |
+|---|---|---|
+| Couverture (Vitest) | 80 % (lignes, branches, fonctions, instructions) | Filet minimal. La couverture dit seulement quelles lignes sont exécutées, pas si elles sont vérifiées : la vraie gate de qualité des tests est la mutation. |
+| Score de mutation (Stryker) | `break` à 85 % | Bloque les tests complaisants, même quand la couverture reste à 100 %. Pas 100 %, car certains mutants sont **équivalents** : ils modifient le code sans changer son comportement, donc aucun test ne peut les tuer. Un seuil à 100 % pousserait à écrire des tests artificiels juste pour le score. |
+| Tests de bout en bout (Playwright) | tous les tests passent | Les parcours critiques de l'utilisateur doivent fonctionner. |
+
+Dans `stryker.config.json`, `high` (90) et `low` (70) ne servent qu'à colorer le rapport ; seul `break` fait échouer la CI.
 
 ## Règles métier (résumé)
 
